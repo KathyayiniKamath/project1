@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Sharing Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url("imgbck.jpeg");
+            background-size:cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+    background-image: -moz-radial-gradient(1);
+        }
+
+        header {
+            background-color: #33333358;
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff81;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        label {
+            display: block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #fileList {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-item span {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>File Sharing</h1>
+    </header>
+    <main>
+        <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)">
+        <label for="fileInput">Upload Files</label>
+        <div id="fileList"></div>
+        <button onclick="deleteAllFiles()">Delete All</button>
+        <button onclick="viewFiles()">View Files</button>
+        <button onclick="downloadFiles()">Download All</button>
+    </main>
+    <script>
+        // Function to handle file uploads
+        function handleFiles(files) {
+            const fileListContainer = document.getElementById('fileList');
+            
+            // Get existing files from local storage or initialize an empty array
+            const existingFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+
+            for (const file of files) {
+                const fileId = Date.now(); // Generate a unique ID for each file
+
+                // Store file information in local storage
+                existingFiles.push({ id: fileId, name: file.name });
+                localStorage.setItem('uploadedFiles', JSON.stringify(existingFiles));
+
+                // Create HTML elements for the file
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item');
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    // Remove the file from local storage
+                    const updatedFiles = existingFiles.filter(f => f.id !== fileId);
+                    localStorage.setItem('uploadedFiles', JSON.stringify(updatedFiles));
+
+                    // Remove the file item from the UI
+                    fileListContainer.removeChild(fileItem);
+                });
+
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(deleteBtn);
+                fileListContainer.appendChild(fileItem);
+            }
+        }
+
+        // Function to load existing files from local storage on page load
+        function loadExistingFiles() {
+            const fileListContainer = document.getElementById('fileList');
+            const existingFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+
+            for (const file of existingFiles) {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item');
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    const updatedFiles = existingFiles.filter(f => f.id !== file.id);
+                    localStorage.setItem('uploadedFiles', JSON.stringify(updatedFiles));
+                    fileListContainer.removeChild(fileItem);
+                });
+
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(deleteBtn);
+                fileListContainer.appendChild(fileItem);
+            }
+        }
+
+        // Load existing files on page load
+        window.addEventListener('load', loadExistingFiles);
+
+        // Function to delete all files
+        function deleteAllFiles() {
+            localStorage.removeItem('uploadedFiles');
+            const fileListContainer = document.getElementById('fileList');
+            fileListContainer.innerHTML = ''; // Clear the file list
+        }
+
+        // Function to view files (open in new window/tab)
+        function viewFiles() {
+            const existingFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+
+            for (const file of existingFiles) {
+                // Open each file in a new window/tab (assuming it's an image for simplicity)
+                window.open(`path/to/your/server/${file.name}`, '_blank');
+            }
+        }
+
+        // Function to download all files
+        function downloadFiles() {
+            const existingFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+
+            for (const file of existingFiles) {
+                // Generate download links for each file
+                const downloadLink = document.createElement('a');
+                downloadLink.href = `D:\coference\CNT${file.name}`;
+                downloadLink.download = file.name;
+                downloadLink.click();
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload Dashboard</title>
+  <style>
+    /* ... (previous styles remain unchanged) */
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      background-image: url("imgbck.jpeg");
+      background-size:cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+   
+    }
+
+    #dashboard {
+      width: 80%;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #uploadForm {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fileInput {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0;
+      background-color: #4caf50;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    #total-progress {
+      height: 20px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    #total-progress .progress {
+      height: 100%;
+      width: 0;
+      background-color: #4caf50;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    #complete-message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #4caf50;
+    }
+    .progress-bar.error {
+      background-color: #ff5252; /* Red color for error */
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="dashboard">
+    <h2>File Upload Dashboard</h2>
+
+    <form id="uploadForm">
+      <div class="fileInput">
+        <label for="htmlFile">HTML File:</label>
+        <input type="file" id="htmlFile" class="fileInput" />
+        <div class="progress-bar">
+          <div class="progress" id="htmlProgress"></div>
+        </div>
+      </div>
+
+      <div class="fileInput">
+        <label for="cssFile">CSS File:</label>
+        <input type="file" id="cssFile" class="fileInput" />
+        <div class="progress-bar">
+          <div class="progress" id="cssProgress"></div>
+        </div>
+      </div>
+
+      <div class="fileInput">
+        <label for="jsFile">JavaScript File:</label>
+        <input type="file" id="jsFile" class="fileInput" />
+        <div class="progress-bar">
+          <div class="progress" id="jsProgress"></div>
+        </div>
+      </div>
+
+      <div id="total-progress">
+        <div class="progress" id="totalProgress"></div>
+      </div>
+
+      <div id="complete-message"></div>
+
+      <button type="button" onclick="uploadFiles()" id="uploadButton" disabled>Upload Files</button>
+    </form>
+  </div>
+
+  <script>
+    function uploadFiles() {
+      // Reset error styles
+      resetErrorStyles();
+
+      // Check if all files are selected
+      const htmlFile = document.getElementById('htmlFile');
+      const cssFile = document.getElementById('cssFile');
+      const jsFile = document.getElementById('jsFile');
+
+      if (!htmlFile.files.length || !cssFile.files.length || !jsFile.files.length) {
+        handleUploadError();
+        return;
+      }
+
+      // Logic to upload files and update progress bars
+      // For demonstration purposes, I'm just setting progress bars to 100%
+      document.getElementById('htmlProgress').style.width = '100%';
+      document.getElementById('cssProgress').style.width = '100%';
+      document.getElementById('jsProgress').style.width = '100%';
+      document.getElementById('totalProgress').style.width = '100%';
+
+      // Display completion message
+      document.getElementById('complete-message').innerText = 'Upload completed!';
+    }
+
+    function handleUploadError() {
+      // Handle case where not all files are selected
+      document.getElementById('complete-message').innerText = 'Task not completed. Please select all files.';
+      document.getElementById('htmlProgress').classList.add('error');
+      document.getElementById('cssProgress').classList.add('error');
+      document.getElementById('jsProgress').classList.add('error');
+    }
+
+    function resetErrorStyles() {
+      // Reset error styles
+      document.getElementById('htmlProgress').classList.remove('error');
+      document.getElementById('cssProgress').classList.remove('error');
+      document.getElementById('jsProgress').classList.remove('error');
+      document.getElementById('complete-message').innerText = '';
+    }
+
+    // Enable the "Upload Files" button when all files are selected
+    document.getElementById('htmlFile').addEventListener('change', enableUploadButton);
+    document.getElementById('cssFile').addEventListener('change', enableUploadButton);
+    document.getElementById('jsFile').addEventListener('change', enableUploadButton);
+
+    function enableUploadButton() {
+      const htmlFile = document.getElementById('htmlFile');
+      const cssFile = document.getElementById('cssFile');
+      const jsFile = document.getElementById('jsFile');
+      const uploadButton = document.getElementById('uploadButton');
+
+      if (htmlFile.files.length && cssFile.files.length && jsFile.files.length) {
+        uploadButton.disabled = false;
+      } else {
+        uploadButton.disabled = true;
+      }
+
+      // Reset error styles when files are selected
+      resetErrorStyles();
+    }
+  </script>
+
+</body>
+</html>

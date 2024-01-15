@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+   <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-image: url("todo.jpeg");
+        background-size:cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+   
+    }
+    
+    .todo-container {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    input {
+        width: 70%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    
+    button {
+        padding: 8px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    li {
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 20px;
+        margin-right: 20px;
+        
+    }
+    
+    .delete-button {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+    }
+    
+    .delete-button:hover {
+        background-color: #d32f2f;
+    }
+    .todo-container{
+        max-width: 1000px;
+        max-height: 1000px;
+        background-color: rgba(240, 248, 255, 0.825);
+    }
+    .list{
+        margin-bottom: 40px;
+    }
+   </style>
+</head>
+<body>
+    <div class="todo-container">
+    <div id="list">
+        <h1>Todo List</h1>
+        <form method="post" action="connect.php">
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <input type="text" id="descriptionInput" placeholder="Add a description" style="margin-left:50px;">
+    </form>
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadTasks);
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const descriptionInput = document.getElementById('descriptionInput');
+            const taskList = document.getElementById('taskList');
+        
+            const taskText = taskInput.value.trim();
+            const taskDescription = descriptionInput.value.trim();
+        
+            if (taskText !== '') {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${taskText}</span>
+                    <span class="description">${taskDescription}</span>
+                    <button class="delete-button" onclick="deleteTask(this)">Delete</button>
+                `;
+                taskList.appendChild(li);
+                saveTaskToLocalStorage(taskText, taskDescription);
+                taskInput.value = '';
+                descriptionInput.value = '';
+            } else {
+                alert('Please enter a task.');
+            }
+        }
+        
+        function deleteTask(button) {
+            const li = button.parentNode;
+            const taskList = li.parentNode;
+            taskList.removeChild(li);
+            removeTaskFromLocalStorage(li.firstChild.textContent);
+        }
+        
+        function saveTaskToLocalStorage(taskText, taskDescription) {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push({ text: taskText, description: taskDescription });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        function removeTaskFromLocalStorage(taskText) {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks = tasks.filter(task => task.text !== taskText);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        function loadTasks() {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const taskList = document.getElementById('taskList');
+        
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${task.text}</span>
+                    <span class="description">${task.description}</span>
+                    <button class="delete-button" onclick="deleteTask(this)">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+        function deleteTask(button) {
+            const li = button.parentNode;
+            const taskList = li.parentNode;
+            const taskText = li.querySelector('span').textContent;
+            
+            taskList.removeChild(li);
+            removeTaskFromLocalStorage(taskText);
+        }
+        
+    </script>
+</body>
+</html>

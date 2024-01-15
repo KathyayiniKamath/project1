@@ -1,0 +1,134 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>GitHub-like Dashboard</title>
+    <style>
+        /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h1>Repositories</h1>
+    <ul id="repository-list"></ul>
+</div>
+
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Login</h2>
+        <form onsubmit="login(event)">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+<script >
+    // scripts.js
+const repositories = [
+{ name: 'example-repo', files: ['file1.txt', 'file2.py'] },
+{ name: 'another-repo', files: ['document.pdf'] },
+];
+
+function renderRepositories() {
+const repositoryList = document.getElementById('repository-list');
+repositoryList.innerHTML = '';
+
+repositories.forEach(repo => {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<a href="#" onclick="showRepository('${repo.name}')">${repo.name}</a>`;
+    repositoryList.appendChild(listItem);
+});
+}
+
+function showRepository(repoName) {
+const repo = repositories.find(r => r.name === repoName);
+if (repo) {
+    alert(`Repository: ${repo.name}\nFiles: ${repo.files.join(', ')}`);
+} else {
+    alert('Repository not found');
+}
+}
+
+function openLoginModal() {
+const modal = document.getElementById('login-modal');
+modal.style.display = 'block';
+}
+
+function closeModal() {
+const modal = document.getElementById('login-modal');
+modal.style.display = 'none';
+}
+
+function login(event) {
+event.preventDefault();
+const username = document.getElementById('username').value;
+const password = document.getElementById('password').value;
+
+// Mock authentication (Replace with a proper authentication system)
+if (username === 'user' && password === 'password') {
+    closeModal();
+} else {
+    alert('Invalid credentials');
+}
+}
+
+document.addEventListener('DOMContentLoaded', renderRepositories);
+
+</script>
+</body>
+</html>

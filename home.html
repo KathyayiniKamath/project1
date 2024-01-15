@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="style.css">
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom styles can be added here */
+    </style>
+    <title>Home</title>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <!-- Navigation Bar -->
+    <nav class="head">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <div  style="font-size:16px;margin-top: 16px;color:white">
+                    <h2>𝐈𝐍𝐅𝐈𝐍𝐈𝐓𝐘</h2> 
+                        </div>
+            </div>
+            <div class="flex items-center">
+                <a href="{% url 'logout' %}" class="ml-4">Log out</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Menu -->
+    <div class=" text-white" id="profile">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="#" class="flex items-center">
+                <img src="avatar.jpg" alt="Profile Picture" class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="font-bold">Your Name</div>
+                    <div class="text-sm">username</div>
+                </div>
+            </a>
+            <div class="ml-4 hidden lg:flex">
+                <div class="nav-bar">
+                    
+                   
+                <div class="nav-search" style="color:black">
+                    <select class="search-select">
+                        <option>All</option>
+                    </select>
+                    <input placeholder="Search" class="search-input">
+                    <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                </div>
+                </div>
+                <a href="#" class="ml-4">Chat</a>
+                <a href="#" class="ml-4">Resourse Share</a>
+                <a href="{% url 'meet' %}" class="ml-4">Meet</a>
+                <a href="#" class="ml-4">Connect with People</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu (hidden by default) -->
+    <div class="lg:hidden bg-gray-900 text-white p-4">
+        <input type="text" class="lg:px-3 py-2 text-black rounded-md" placeholder="Search...">
+        <a href="#" class="block text-white">Chat</a>
+        <a href="#" class="block text-white mt-2">Resourse Share</a>
+        <a href="{% url 'meet' %}" class="block text-white mt-2">Meet</a>
+        <a href="#" class="block text-white mt-2">Connect with People</a>
+    </div>
+    <!--<div class="container mx-auto py-8">
+    </div>-->
+    <nav class="nav-bar1">
+        <ul>
+            <li><a href="./home.html"><i class="fa-solid fa-plus"></i></a></li>
+            <li><a href="">My Tasks</a></li>
+           <li><a href="./todo.html">Todo list</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="./tracker.html">Task Tracker</a></li>
+        </ul>
+    </nav>
+
+    <section id="mainsection">
+        <!-- Sample Repository Card -->
+        <div class="repository">
+            <h2>Repository 1</h2>
+            <p>Description of the repository goes here.</p>
+            <ul>
+                <li>Stars: 100</li>
+                <li>Forks: 50</li>
+                <li>Issues: 10</li>
+            </ul>
+            <a href="./dash.html"><button style="color:green;font-weight:bold">View Repository</button></a>
+        </div>
+        <div class="repository">
+            <h2>Repository 2</h2>
+            <p>Description of the repository goes here.</p>
+            <ul>
+                <li>Stars: 100</li>
+                <li>Forks: 50</li>
+                <li>Issues: 10</li>
+            </ul>
+           <a href="./dash.html"><button style="color:green;font-weight:bold">View Repository</button></a>
+        </div>
+        <div class="repository">
+            <h2>Repository 3</h2>
+            <p>Description of the repository goes here.</p>
+            <ul>
+                <li>Stars: 100</li>
+                <li>Forks: 50</li>
+                <li>Issues: 10</li>
+            </ul>
+            <a href="./dash.html"><button style="color:green;font-weight:bold">View Repository</button></a>
+        </div>
+        <div class="repository">
+            <h2>Repository 3</h2>
+            <p>Description of the repository goes here.</p>
+            <ul>
+                <li>Stars: 100</li>
+                <li>Forks: 50</li>
+                <li>Issues: 10</li>
+            </ul>
+            <a href="./dash.html"><button style="color:green;font-weight:bold">View Repository</button></a>
+        </div>
+
+       
+    </section>
+    <!-- Footer -->
+    
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2023 GitHub. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
